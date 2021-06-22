@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,21 +20,22 @@ import java.time.LocalTime;
 public class Donation {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    Integer quantity;
+    private Long id;
+    private Integer quantity;
 
     @ManyToOne
-    Category categories;
+    private Category categories;
 
     @ManyToOne
-    Institution institutions;
+    private Institution institutions;
 
-    String street;
-    String city;
-    String zipCode;
-    LocalDate pickUpDate;
-    LocalTime pickUpTime;
-    String pickUpComment;
+    private String street;
+    private String city;
+    private String zipCode;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate pickUpDate;
+    private LocalTime pickUpTime;
+    private String pickUpComment;
 
 
 

@@ -21,7 +21,8 @@
         </ul>
 
         <ul>
-            <li><a href="#" class="btn btn--without-border active">Start</a></li>
+<%--            <li><a href="#" class="btn btn--without-border active"><spring:message code="pages.menu.start.text"></spring:message></a></li>--%>
+            <li><a href="/form" class="btn btn--without-border active">Start</a></li>
             <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
             <li><a href="#" class="btn btn--without-border">O nas</a></li>
             <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>
@@ -42,15 +43,14 @@
 <section class="stats">
     <div class="container container--85">
         <div class="stats--item">
-            <em>13</em>
-
+            <em>${bags}</em>
             <h3>Oddanych worków</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum
                 tempora!</p>
         </div>
 
         <div class="stats--item">
-            <em>5</em>
+            <em>${donations}</em>
             <h3>Przekazanych darów</h3>
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas
                 quam.</p>
@@ -108,33 +108,38 @@
             Możesz sprawdzić czym się zajmują.</p>
 
         <ul class="help--slides-items">
-            <li>
-                <div class="col">
-                    <div class="title">Fundacja "Dbam o Zdrowie"</div>
-                    <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>
-                </div>
-
-                <div class="col">
-                    <div class="title">Fundacja "A kogo"</div>
-                    <div class="subtitle">Cel i misja: Pomoc wybudzaniu dzieci ze śpiączki.</div>
-                </div>
-            </li>
-
-            <li>
-                <div class="col">
-                    <div class="title">Fundacja “Dla dzieci"</div>
-                    <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.</div>
-                </div>
-                <div class="col">
-                    <div class="title">Fundacja “Bez domu”</div>
-                    <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>
-                </div>
-
-            </li>
-
+            <c:set var="display" value="${false}"/>
+            <c:set var="col1" value="${true}"/>
+            <c:set var="count" value ="0"/>
+            <c:forEach var="institution" items="${institutions}">
+                <c:choose>
+                    <c:when test="${col1} and ${count % 2 != 0}">
+                        <c:set var="tempname" value="${institution.getName()}"/>
+                        <c:set var="tempdesc" value="${institution.getDescription()}"/>
+                        <c:set var="col1" value="${false}"/>
+                        <c:set var="display" value="${true}"/>
+                    </c:when>
+                    <c:when test="${display} and ${count % 2 == 0}">
+                        <li>
+                            <div class="col">
+                                <div class="title">${tempname}</div>
+                                <div class="subtitle">${tempdesc}</div>
+                            </div>
+                            <div class="col">
+                                <div class="title">${institution.getName()}</div>
+                                <div class="subtitle">${institution.getDescription()}</div>
+                            </div>
+                        </li>
+                        <c:set var="col1" value="${true}"/>
+                    </c:when>
+<%--                    <c:otherwise>--%>
+<%--                        <c:set var="col1" value="${false}"/>--%>
+<%--                        <c:set var="display" value="${true}"/>--%>
+<%--                    </c:otherwise>--%>
+                </c:choose>
+            </c:forEach>
         </ul>
     </div>
-
 </section>
 
 <footer>

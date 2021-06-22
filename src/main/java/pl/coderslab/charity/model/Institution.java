@@ -19,8 +19,8 @@ import javax.persistence.Id;
 public class Institution {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String description;
+    private Long id;
+    private String name;
+    private String description;
 
 }
