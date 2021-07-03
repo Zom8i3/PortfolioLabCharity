@@ -8,16 +8,16 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Document</title>
+    <title>Stuff4U</title>
 
-    <link rel="stylesheet" href="<c:url value="resources/css/style.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
 <header class="header--main-page">
     <nav class="container container--70">
         <ul class="nav--actions">
-            <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="/login" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a href="/register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
 
         <ul>
@@ -85,7 +85,7 @@
         </div>
     </div>
 
-    <a href="#" class="btn btn--large">Załóż konto</a>
+    <a href="/register" class="btn btn--large">Załóż konto</a>
 </section>
 
 <section class="about-us">
@@ -106,36 +106,31 @@
     <div class="help--slides active" data-id="1">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy.
             Możesz sprawdzić czym się zajmują.</p>
-
         <ul class="help--slides-items">
             <c:set var="display" value="${false}"/>
             <c:set var="col1" value="${true}"/>
             <c:set var="count" value ="0"/>
             <c:forEach var="institution" items="${institutions}">
                 <c:choose>
-                    <c:when test="${col1} and ${count % 2 != 0}">
-                        <c:set var="tempname" value="${institution.getName()}"/>
-                        <c:set var="tempdesc" value="${institution.getDescription()}"/>
+                    <c:when test="${col1}">
+                        <c:set var="tempname" value="${institution.name}"/>
+                        <c:set var="tempdesc" value="${institution.description}"/>
                         <c:set var="col1" value="${false}"/>
                         <c:set var="display" value="${true}"/>
                     </c:when>
-                    <c:when test="${display} and ${count % 2 == 0}">
+                    <c:when test="${display}">
                         <li>
                             <div class="col">
                                 <div class="title">${tempname}</div>
                                 <div class="subtitle">${tempdesc}</div>
                             </div>
                             <div class="col">
-                                <div class="title">${institution.getName()}</div>
-                                <div class="subtitle">${institution.getDescription()}</div>
+                                <div class="title">${institution.name}</div>
+                                <div class="subtitle">${institution.description}</div>
                             </div>
                         </li>
                         <c:set var="col1" value="${true}"/>
                     </c:when>
-<%--                    <c:otherwise>--%>
-<%--                        <c:set var="col1" value="${false}"/>--%>
-<%--                        <c:set var="display" value="${true}"/>--%>
-<%--                    </c:otherwise>--%>
                 </c:choose>
             </c:forEach>
         </ul>

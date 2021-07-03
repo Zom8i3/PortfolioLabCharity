@@ -101,6 +101,13 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$prev = form.querySelectorAll(".prev-step");
       this.$step = form.querySelector(".form--steps-counter span");
       this.currentStep = 1;
+      this.data = [];
+      this.donationType = [];
+      this.donationDetails = [];
+      this.category = document.querySelectorAll("#category");
+      this.qty = document.querySelector("#qty");
+      this.inst = document.querySelectorAll("#institutions");
+      this.fields = document.querySelectorAll(".fields");
 
       this.$stepInstructions = form.querySelectorAll(".form--steps-instructions p");
       const $stepForms = form.querySelectorAll("form > div");
@@ -136,6 +143,8 @@ document.addEventListener("DOMContentLoaded", function() {
           e.preventDefault();
           this.currentStep--;
           this.updateForm();
+          this.donationDetails = [];
+          this.data.splice(this.currentStep-1,2)
         });
       });
 
@@ -164,9 +173,50 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
       // TODO: get data from inputs and show them in summary
-    }
+      if (this.currentStep === 2) {
+        this.category.forEach(el => {
+          if (el.checked) {
+            this.donationType.push(el.nextElementSibling.nextElementSibling.innerText);
+          }
+        })
+        this.data.push(this.donationType);
+      } else if (this.currentStep === 3) {
+        this.data.push(this.qty.value)
+      } else if (this.currentStep === 4) {
+        this.inst.forEach(el => {
+          if (el.checked) {
+            this.data.push(el.nextElementSibling.nextElementSibling.firstElementChild.innerText);
+          }
+        })
+      } else if (this.currentStep === 5) {
+        // console.log(this.fields.length);
+        this.fields.forEach(el => {
+          // console.log(el.firstElementChild.firstElementChild.value)
+          this.donationDetails.push(el.firstElementChild.firstElementChild.value);
+        })
+        this.data.push(this.donationDetails);
+        populateSummary(this.data);
 
+      }
+
+      // console.log(this.data);
+
+      function populateSummary(data){
+        const bags = document.querySelector("#bags")
+        const foundation = document.querySelector("#foundation")
+        bags.innerText = data[1] +' worki ' + data[0];
+        foundation.innerText = 'Dla fundacji "' + data[2] + '" w  '+data[3][1];
+        const fields = document.querySelectorAll(".summaryField");
+        let count = 0;
+        fields.forEach(el=>{
+          // console.log(el.innerText);
+          el.innerText = data[3][count];
+          count++;
+        })
+      }
+    }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);

@@ -2,6 +2,7 @@ package pl.coderslab.charity.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.model.Donation;
 import pl.coderslab.charity.model.Institution;
@@ -23,7 +24,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String homeAction(Model model){
         List<Institution> institutionList = institutionRepository.findAll();
         model.addAttribute("institutions", institutionList);
